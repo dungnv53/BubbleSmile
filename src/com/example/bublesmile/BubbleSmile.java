@@ -22,6 +22,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -52,6 +53,12 @@ private MediaPlayer mp;
 
 @Override
 public void onCreate(Bundle savedInstanceState) {
+	DisplayMetrics displaymetrics = new DisplayMetrics();
+	getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+	int height = displaymetrics.heightPixels;
+	int width = displaymetrics.widthPixels;
+	Log.i("width height ", "w: " + width + " h: " + height);
+	
 	super.onCreate(savedInstanceState); 
 	progressDialog(); 
 	handler = new UpdateCardsHandler(); 
@@ -229,7 +236,7 @@ private void turnCard(Button button,int x, int y) {
 		};
 			
 		Timer t = new Timer(false);
-		t.schedule(tt, 800);
+		t.schedule(tt, 400); // delay when swap icon
 	}
   }
 }
@@ -289,7 +296,7 @@ public void clickSound(){
 }
 private void winDialog() {
 	AlertDialog.Builder alert = new AlertDialog.Builder(this);
-	alert.setTitle("Ban co muon choi tiep ko");
+	alert.setTitle("Continue ?");
 	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	
 	@Override
@@ -298,7 +305,7 @@ private void winDialog() {
 		
 		singleChoiceDialog();
 	}
-	}).setNegativeButton("Thoat", new DialogInterface.OnClickListener() {
+	}).setNegativeButton("Exit", new DialogInterface.OnClickListener() {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 		// TODO Auto-generated method stub
@@ -309,27 +316,27 @@ private void winDialog() {
 }
 
 public void singleChoiceDialog(){
-	final CharSequence[] items = {"DE", "Medium", "Hard", "Exelent"};
+	final CharSequence[] items = {"Easy", "Medium", "Hard", "Exelent"};
 	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	builder.setTitle("Chon muc do choi");
+	builder.setTitle("Select level");
 	builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
 	
 	@Override
 	public void onClick(DialogInterface dialog, int item) {
 		// TODO Auto-generated method stub
 		//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-		switch(item){
+		switch(item){     // Ngoai item ra thi nen set ca time khi xoay hinh, hard --> xoay nhanh
 		case 0:
-		newGame(4,4);	
-		break;
+			newGame(4,4);	
+			break;
 		case 1:
-		newGame(4,5);
-		break;
+			newGame(4,5);
+			break;
 		case 2:
-		newGame(4,6);
-		break;
+			newGame(4,6);
+			break;
 		case 3:
-		newGame(4,7);
+			newGame(4,7);
 		}
 	}
 	}).setPositiveButton("OK", new DialogInterface.OnClickListener() {	
